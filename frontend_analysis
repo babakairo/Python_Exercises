@@ -1,0 +1,17 @@
+select
+userID,
+sum(case when el.eventID = 1 then 1 else 0 end) as ViewedHelpCentrePage,
+sum(case when el.eventID = 2 then 1 else 0 end) as ClickedFAQS,
+sum(case when el.eventID = 3 then 1 else 0 end) as ClickedContactSupport,  
+sum(case when el.eventID= 4 then 1 else 0 end) as SubmittedTicket
+
+from 
+    FrontendEventLog el
+join
+    FrontendEventDefinitions def
+ON 
+    el.EVENTID = def.EVENTID
+where 
+    eventtype = 'Customer Support'
+group by    
+    userid
