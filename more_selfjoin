@@ -1,0 +1,21 @@
+with monthly_revenue as 
+(select 
+    date_trunc('month', orderdate) as order_month, 
+    sum(revenue) as monthly_revenue
+from 
+    subscriptions
+group by 
+    date_trunc('month', orderdate)
+)
+select 
+    mr1.order_month as current_month,
+    mr2.order_month as previous_month,
+    mr1.monthly_revenue as current_revenue,
+    mr2.monthly_revenue as previous_revenue
+from monthly_revenue mr1
+left join
+    monthly_revenue mr2
+where 
+    mr1.monthly_revenue > mr2.monthly_revenue
+    and
+    datediff('month', mr2.order_month, mr1.order_month)
