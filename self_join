@@ -1,0 +1,11 @@
+select 
+emp.employeeid as employeeid,
+emp.name as employee_name,
+mgr.name as manager_name,
+COALESCE(mgr.email,emp.email) as contact_email
+from 
+    employees emp
+left join
+        employees mgr
+        on emp.managerid = mgr.EMPLOYEEID
+where emp.department = 'Sales'
