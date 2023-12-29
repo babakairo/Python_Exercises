@@ -1,0 +1,15 @@
+SELECT
+    SalesEmployeeID,
+    SaleDate,
+    SaleAmount,
+    SUM(SaleAmount) OVER (PARTITION BY SalesEmployeeID ORDER BY SaleDate ) AS running_total,
+    cast(SUM(SaleAmount) OVER (PARTITION BY SalesEmployeeID ORDER BY SaleDate ) as float) /
+    QUOTA AS percent_quota
+FROM
+    sales 
+JOIN
+    employees 
+ON  
+    SALES.SalesEmployeeID = EMPLOYEES.EmployeeID
+ORDER BY 
+    SalesEmployeeID, SALEDATE
