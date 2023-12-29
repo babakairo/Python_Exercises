@@ -1,0 +1,14 @@
+SELECT 
+    *,
+    lead(MovementDate, 1) 
+    OVER (PARTITION BY subscriptionid 
+    ORDER BY  movementDate  ) AS NextStatusMovementDate,
+    lead(MovementDate, 1) 
+    OVER (PARTITION BY subscriptionid 
+    ORDER BY  movementDate ) 
+    - movementDate as TimeInStatus
+FROM
+    paymentStatusLog
+WHERE
+    subscriptionid = '38844'
+ORDER BY movementDate
